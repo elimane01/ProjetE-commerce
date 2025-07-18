@@ -17,7 +17,11 @@
                         <i class="fas fa-shopping-bag me-2"></i>Voir nos produits
                     </a>
                 </div>
+<<<<<<< HEAD
                 </div>
+=======
+            </div>
+>>>>>>> 5e86a9d (catalogue produit)
         </div>
     </div>
     <!-- Ici tu peux ajouter des sections produits, catégories, etc. -->

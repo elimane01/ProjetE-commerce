@@ -35,10 +35,13 @@ class ProductController extends Controller
 
         return view('products.index', compact('products', 'categories'));
     }
+<<<<<<< HEAD
 
     public function show($id)
     {
         $product = Product::with('category')->findOrFail($id);
         return view('products.show', compact('product'));
     }
+=======
+>>>>>>> 5e86a9d (catalogue produit)
 }

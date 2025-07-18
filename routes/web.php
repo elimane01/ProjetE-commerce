@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 
 Route::get('/', [ProductController::class, 'index'])->name('home');
 
+<<<<<<< HEAD
 // Authentification
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
@@ -27,3 +28,16 @@ Route::middleware('auth')->group(function () {
 Route::get('/produits', [ProductController::class, 'index'])->name('products.index');
 Route::get('/produits/{id}', [ProductController::class, 'show'])->name('products.show');
 Route::post('/panier/ajouter/{id}', [\App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
+=======
+// Authentification client
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/profile', [AuthController::class, 'showProfile'])->name('profile')->middleware('auth');
+Route::put('/profile', [AuthController::class, 'updateProfile'])->name('profile.update')->middleware('auth');
+Route::put('/profile/password', [AuthController::class, 'changePassword'])->name('profile.password')->middleware('auth');
+
+Route::get('/produits', [ProductController::class, 'index'])->name('products.index');
+>>>>>>> 5e86a9d (catalogue produit)
