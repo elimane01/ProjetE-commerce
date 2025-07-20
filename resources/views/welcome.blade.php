@@ -17,7 +17,7 @@
                         <i class="fas fa-shopping-bag me-2"></i>Voir nos produits
                     </a>
                 </div>
-            </div>
+                </div>
         </div>
     </div>
     <!-- Ici tu peux ajouter des sections produits, catégories, etc. -->

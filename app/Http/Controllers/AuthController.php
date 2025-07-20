@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -104,11 +103,25 @@ class AuthController extends Controller
             'country' => 'nullable|string|max:100',
         ]);
 
-        $user->update($request->only([
-            'first_name', 'last_name', 'email', 'phone', 'address', 'city', 'postal_code', 'country'
-        ]));
+        $user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'name' => $request->first_name . ' ' . $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'city' => $request->city,
+            'postal_code' => $request->postal_code,
+            'country' => $request->country,
+        ]);
 
         return back()->with('success', 'Profil mis à jour !');
+    }
+
+    // Affiche le formulaire de changement de mot de passe
+    public function showChangePasswordForm()
+    {
+        return view('auth.change-password');
     }
 
     // Change le mot de passe
