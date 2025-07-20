@@ -6,10 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-<<<<<<< HEAD
-=======
 use Illuminate\Support\Facades\Validator;
->>>>>>> 5e86a9d (catalogue produit)
 
 class AuthController extends Controller
 {
@@ -107,7 +104,6 @@ class AuthController extends Controller
             'country' => 'nullable|string|max:100',
         ]);
 
-<<<<<<< HEAD
         $user->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -119,24 +115,16 @@ class AuthController extends Controller
             'postal_code' => $request->postal_code,
             'country' => $request->country,
         ]);
-=======
-        $user->update($request->only([
-            'first_name', 'last_name', 'email', 'phone', 'address', 'city', 'postal_code', 'country'
-        ]));
->>>>>>> 5e86a9d (catalogue produit)
 
         return back()->with('success', 'Profil mis à jour !');
     }
 
-<<<<<<< HEAD
     // Affiche le formulaire de changement de mot de passe
     public function showChangePasswordForm()
     {
         return view('auth.change-password');
     }
 
-=======
->>>>>>> 5e86a9d (catalogue produit)
     // Change le mot de passe
     public function changePassword(Request $request)
     {
