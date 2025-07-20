@@ -25,3 +25,5 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/produits', [ProductController::class, 'index'])->name('products.index');
+Route::get('/produits/{id}', [ProductController::class, 'show'])->name('products.show');
+Route::post('/panier/ajouter/{id}', [\App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
