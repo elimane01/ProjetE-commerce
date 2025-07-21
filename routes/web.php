@@ -23,5 +23,9 @@ require __DIR__.'/auth.php';
 // Routes admin protégées
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+    
+    // Routes pour les produits
+    Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
+    
     // Ajoute ici les autres routes d'administration
 });
