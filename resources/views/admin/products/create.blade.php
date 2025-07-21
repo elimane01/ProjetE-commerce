@@ -26,6 +26,16 @@
                 </div>
             </div>
             <div>
+                <label class="block mb-1 font-semibold">Catégorie</label>
+                <select name="category_id" class="w-full border-gray-300 rounded px-3 py-2">
+                    <option value="">Aucune</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                    @endforeach
+                </select>
+                @error('category_id') <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
+            </div>
+            <div>
                 <label class="block mb-1 font-semibold">Image</label>
                 <input type="file" name="image" class="w-full">
                 @error('image') <div class="text-red-500 text-sm">{{ $message }}</div> @enderror

@@ -1,12 +1,21 @@
 <x-app-layout>
     <div class="max-w-6xl mx-auto py-10 px-4">
         <div class="flex justify-between items-center mb-8">
-            <h1 class="text-2xl font-bold text-white">Liste des produits</h1>
-            <a href="{{ url('admin/products/create') }}" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold shadow hover:bg-green-700 transition">
-                + Ajouter un produit
-            </a>
+            <h1 class="text-2xl font-bold text-gray-800">Produits de la catégorie : {{ $category->name }}</h1>
+            <div class="flex gap-2 items-center">
+                <form method="GET" action="" class="flex gap-2">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Rechercher un produit..." class="border border-gray-300 rounded px-3 py-2">
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded font-semibold hover:bg-blue-700 transition">Rechercher</button>
+                    @if(request('search'))
+                        <a href="?" class="bg-gray-400 text-white px-4 py-2 rounded font-semibold hover:bg-gray-600 transition">Réinitialiser</a>
+                    @endif
+                </form>
+                <a href="{{ route('categories.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg font-semibold shadow hover:bg-gray-700 transition">
+                    Retour aux catégories
+                </a>
+            </div>
         </div>
-        <div class="bg-white rounded-xl shadow p-6 max-h-[600px] overflow-y-auto">
+        <div class="bg-white rounded-xl shadow p-6">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead>
                     <tr>
@@ -14,18 +23,16 @@
                         <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nom</th>
                         <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Prix</th>
                         <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Stock</th>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Catégorie</th>
                         <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                     @forelse($products as $index => $product)
                         <tr>
-                            <td class="px-4 py-2">{{ $index + 1 }}</td>
+                            <td class="px-4 py-2">{{ $index + 1 + ($products->currentPage() - 1) * $products->perPage() }}</td>
                             <td class="px-4 py-2">{{ $product->name }}</td>
                             <td class="px-4 py-2">{{ number_format($product->price, 0, ',', ' ') }} CFA</td>
                             <td class="px-4 py-2">{{ $product->stock }}</td>
-                            <td class="px-4 py-2">{{ $product->category ? $product->category->name : 'Aucune' }}</td>
                             <td class="px-4 py-2 flex gap-2">
                                 <a href="{{ route('products.edit', $product) }}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs">Éditer</a>
                                 <form action="{{ route('products.destroy', $product) }}" method="POST" onsubmit="return confirm('Supprimer ce produit ?');">
@@ -37,11 +44,14 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center text-gray-400 py-8">Aucun produit trouvé.</td>
+                            <td colspan="5" class="text-center text-gray-400 py-8">Aucun produit trouvé dans cette catégorie.</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
+            <div class="mt-6">
+                {{ $products->links() }}
+            </div>
         </div>
     </div>
 </x-app-layout> 

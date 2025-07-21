@@ -12,7 +12,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = \App\Models\Product::latest()->paginate(10);
+        $products = \App\Models\Product::orderBy('id', 'asc')->get();
         return view('admin.products.index', compact('products'));
     }
 
@@ -21,7 +21,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+        $categories = \App\Models\Category::all();
+        return view('admin.products.create', compact('categories'));
     }
 
     /**
@@ -35,6 +36,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'category_id' => 'nullable|exists:categories,id',
         ]);
 
         if ($request->hasFile('image')) {
@@ -61,7 +63,8 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         $product = \App\Models\Product::findOrFail($id);
-        return view('admin.products.edit', compact('product'));
+        $categories = \App\Models\Category::all();
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -77,6 +80,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'category_id' => 'nullable|exists:categories,id',
         ]);
 
         // Préparer les données à mettre à jour
@@ -85,6 +89,7 @@ class ProductController extends Controller
             'description' => $validated['description'],
             'price' => $validated['price'],
             'stock' => $validated['stock'],
+            'category_id' => $validated['category_id'] ?? null,
         ];
 
         // Gérer l'image si une nouvelle est uploadée

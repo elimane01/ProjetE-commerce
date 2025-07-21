@@ -27,5 +27,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     // Routes pour les produits
     Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
     
+    // Routes pour les catégories
+    Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
+    Route::get('categories/{category}/products', [App\Http\Controllers\Admin\CategoryController::class, 'showProducts'])->name('categories.products');
+    
     // Ajoute ici les autres routes d'administration
 });
