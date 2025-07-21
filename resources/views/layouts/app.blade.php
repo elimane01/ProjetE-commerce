@@ -29,6 +29,11 @@
                     <a class="nav-link" href="{{ route('login') }}">Se connecter</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('cart.index') }}">
+                        <i class="fas fa-shopping-basket me-1"></i>Voir mon panier
+                    </a>
+                </li>
+                <li class="nav-item">
                     <form method="POST" action="{{ route('logout') }}" class="d-inline">
                         @csrf
                         <button type="submit" class="btn btn-link nav-link" style="display:inline;cursor:pointer;">Se déconnecter</button>

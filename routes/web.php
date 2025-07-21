@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', [ProductController::class, 'index'])->name('home');
 
@@ -26,4 +27,16 @@ Route::get('/produits', [ProductController::class, 'index'])->name('products.ind
 Route::get('/produits/{id}', [ProductController::class, 'show'])->name('products.show');
 
 // Panier
+Route::get('/panier', [\App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
 Route::post('/panier/ajouter/{id}', [\App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
+Route::post('/panier/modifier/{id}', [\App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
+Route::post('/panier/supprimer/{id}', [\App\Http\Controllers\CartController::class, 'remove'])->name('cart.remove');
+
+// Passage de commande
+Route::middleware('auth')->group(function () {
+    Route::get('/commande', [OrderController::class, 'create'])->name('orders.create');
+    Route::post('/commande', [OrderController::class, 'store'])->name('orders.store');
+    Route::get('/commande/paiement', [OrderController::class, 'payment'])->name('orders.payment');
+    Route::post('/commande/paiement', [OrderController::class, 'processPayment'])->name('orders.processPayment');
+    Route::get('/commande/confirmation/{id}', [OrderController::class, 'confirmation'])->name('orders.confirmation');
+});
