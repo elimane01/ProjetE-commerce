@@ -20,8 +20,9 @@
                             @if($product->description_longue)
                                 <hr>
                                 <h5 class="mt-4">Description détaillée & caractéristiques</h5>
-                                <div class="mb-3" style="white-space:pre-line;font-size:1.05em;">
-                                    {{ $product->description_longue }}
+                                {{-- Si la description longue contient des prix, on ajoute FCFA automatiquement --}}
+                                <div class="mb-3">
+                                    {!! preg_replace('/(\d{1,3}(?:[\s.,]\d{3})*(?:[.,]\d+)?)(\s*€|\s*euros?)/i', '$1 FCFA', nl2br(e($product->description_longue))) !!}
                                 </div>
                             @endif
                             <form method="POST" action="{{ route('cart.add', $product->id) }}" class="mb-3">

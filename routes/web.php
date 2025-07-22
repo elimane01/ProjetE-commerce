@@ -34,9 +34,16 @@ Route::post('/panier/supprimer/{id}', [\App\Http\Controllers\CartController::cla
 
 // Passage de commande
 Route::middleware('auth')->group(function () {
-    Route::get('/commande', [OrderController::class, 'create'])->name('orders.create');
-    Route::post('/commande', [OrderController::class, 'store'])->name('orders.store');
+    Route::get('/mes-commandes', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/commande/paiement', [OrderController::class, 'payment'])->name('orders.payment');
     Route::post('/commande/paiement', [OrderController::class, 'processPayment'])->name('orders.processPayment');
     Route::get('/commande/confirmation/{id}', [OrderController::class, 'confirmation'])->name('orders.confirmation');
+    Route::get('/commande/{id}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/commande/{id}/statut', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+    Route::get('/commande/{id}/facture', [OrderController::class, 'downloadInvoice'])->name('orders.invoice');
+    Route::get('/commande', [OrderController::class, 'create'])->name('orders.create');
+    Route::post('/commande', [OrderController::class, 'store'])->name('orders.store');
+    Route::get('/test-paiement-auth', function() { dd('test route auth ok'); });
 });
+
+Route::get('/test-paiement', function() { dd('test route ok'); });

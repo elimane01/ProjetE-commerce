@@ -45,6 +45,11 @@
                         <i class="fas fa-user me-1"></i>{{ Auth::user()->first_name }}
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('orders.index') }}">
+                        <i class="fas fa-list me-1"></i>Mes commandes
+                    </a>
+                </li>
                 @endauth
             </ul>
         </div>

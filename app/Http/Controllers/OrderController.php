@@ -7,6 +7,9 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Mail\OrderConfirmationMail;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderStatusUpdatedMail;
 
 class OrderController extends Controller
 {
@@ -79,9 +82,12 @@ class OrderController extends Controller
                     'prix_unitaire' => $item['price'],
                 ]);
             }
+            // Envoi de l'email de confirmation
+            Mail::to($order->email)->send(new OrderConfirmationMail($order));
             DB::commit();
             session()->forget('cart');
-            return redirect()->route('orders.confirmation', $order->id);
+            session()->save();
+            return redirect()->route('orders.index')->with('success', 'Commande validée avec succès !');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Erreur lors de la validation de la commande.');
@@ -143,15 +149,59 @@ class OrderController extends Controller
                     'prix_unitaire' => $item['price'],
                 ]);
             }
+            // Envoi de l'email de confirmation
+            Mail::to($order->email)->send(new OrderConfirmationMail($order));
             
             DB::commit();
             session()->forget(['cart', 'pending_order']);
-            
-            return redirect()->route('orders.confirmation', $order->id)
-                           ->with('success', 'Paiement effectué avec succès !');
+            session()->save();
+            return redirect()->route('orders.index')->with('success', 'Paiement effectué avec succès !');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Erreur lors du traitement du paiement.');
         }
+    }
+
+    // Affiche l'historique des commandes du client
+    public function index()
+    {
+        $orders = Order::where('user_id', Auth::id())
+                      ->with('orderItems.product')
+                      ->orderBy('created_at', 'desc')
+                      ->get();
+        return view('orders.index', compact('orders'));
+    }
+
+    // Affiche le détail d'une commande spécifique
+    public function show($id)
+    {
+        $order = Order::where('user_id', Auth::id())
+                     ->with('orderItems.product')
+                     ->findOrFail($id);
+        return view('orders.show', compact('order'));
+    }
+
+    // Télécharge la facture PDF
+    public function downloadInvoice($id)
+    {
+        $order = Order::where('user_id', Auth::id())
+                     ->with('orderItems.product')
+                     ->findOrFail($id);
+        
+        // Générer le PDF (pour l'instant, on redirige vers une vue PDF)
+        return view('orders.invoice', compact('order'));
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'statut' => 'required|in:en_attente,validee,expediee,livree,annulee',
+        ]);
+        $order = Order::findOrFail($id);
+        $order->statut = $request->statut;
+        $order->save();
+        // Envoi de l'email de notification
+        Mail::to($order->email)->send(new OrderStatusUpdatedMail($order, $order->statut));
+        return redirect()->route('orders.show', $order->id)->with('success', 'Statut mis à jour et notification envoyée !');
     }
 }
