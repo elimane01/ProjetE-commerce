@@ -31,5 +31,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
     Route::get('categories/{category}/products', [App\Http\Controllers\Admin\CategoryController::class, 'showProducts'])->name('categories.products');
     
+    // Routes pour les commandes
+    Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
+    
     // Ajoute ici les autres routes d'administration
 });

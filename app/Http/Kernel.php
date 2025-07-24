@@ -9,7 +9,7 @@ class Kernel extends HttpKernel
     /**
      * The application's route middleware groups.
      *
-     * @var array<string, array<int, class-string|string>>
+     * @var array<string, array<int, class-string|string>>gi
      */
     protected $middlewareGroups = [
         'web' => [
@@ -38,4 +38,4 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         // Ajoute ici d'autres middlewares personnalisés si besoin
     ];
-} 
+}
