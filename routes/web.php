@@ -23,6 +23,7 @@ require __DIR__.'/auth.php';
 // Routes admin protégées
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('statistics', [App\Http\Controllers\Admin\DashboardController::class, 'statistics'])->name('statistics.index');
     
     // Routes pour les produits
     Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
@@ -33,6 +34,10 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     
     // Routes pour les commandes
     Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
+    Route::get('orders/{order}/invoice', [App\Http\Controllers\Admin\OrderController::class, 'downloadInvoice'])->name('orders.invoice');
+    
+    // Routes pour les utilisateurs
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class)->only(['index', 'show', 'edit', 'update']);
     
     // Ajoute ici les autres routes d'administration
 });

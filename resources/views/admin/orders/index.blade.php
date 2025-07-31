@@ -2,12 +2,21 @@
     <div class="max-w-6xl mx-auto py-10 px-4">
         <div class="flex justify-between items-center mb-8">
             <h1 class="text-2xl font-bold text-white">Liste des commandes</h1>
+            <form method="GET" action="" class="flex items-center gap-2">
+                <select name="status" class="border-gray-300 rounded px-3 py-2">
+                    <option value="">Tous les statuts</option>
+                    @foreach($statuses as $status)
+                        <option value="{{ $status }}" {{ request('status') == $status ? 'selected' : '' }}>{{ ucfirst($status) }}</option>
+                    @endforeach
+                </select>
+                <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-xs">Filtrer</button>
+            </form>
         </div>
         <div class="bg-white rounded-xl shadow p-6 max-h-[600px] overflow-y-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead>
                     <tr>
-                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">#</th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
                         <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Utilisateur</th>
                         <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
                         <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
@@ -18,7 +27,7 @@
                 <tbody class="divide-y divide-gray-100">
                     @forelse($orders as $index => $order)
                         <tr>
-                            <td class="px-4 py-2">{{ $index + 1 }}</td>
+                            <td class="px-4 py-2">{{ $order->id }}</td>
                             <td class="px-4 py-2">{{ $order->user ? $order->user->name : 'N/A' }}</td>
                             <td class="px-4 py-2">{{ number_format($order->total, 0, ',', ' ') }} CFA</td>
                             <td class="px-4 py-2">{{ ucfirst($order->status) }}</td>

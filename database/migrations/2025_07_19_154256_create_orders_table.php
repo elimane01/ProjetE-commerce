@@ -13,6 +13,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->decimal('total', 12, 2)->default(0);
             $table->string('status')->default('en attente');
+            $table->string('payment_method')->nullable();
+            $table->string('payment_status')->default('non payé');
             $table->timestamps();
         });
     }

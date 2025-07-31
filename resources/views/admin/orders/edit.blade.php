@@ -13,6 +13,21 @@
                 </select>
                 @error('status') <div class="text-red-500 text-sm">{{ $message }}</div> @enderror
             </div>
+            <div>
+                <label class="block mb-1 font-semibold">Mode de paiement</label>
+                <select name="payment_method" class="w-full border-gray-300 rounded px-3 py-2">
+                    <option value="" {{ $order->payment_method == null ? 'selected' : '' }}>Non renseigné</option>
+                    <option value="avant livraison" {{ $order->payment_method == 'avant livraison' ? 'selected' : '' }}>Avant livraison</option>
+                    <option value="après livraison" {{ $order->payment_method == 'après livraison' ? 'selected' : '' }}>Après livraison</option>
+                </select>
+            </div>
+            <div>
+                <label class="block mb-1 font-semibold">Statut paiement</label>
+                <select name="payment_status" class="w-full border-gray-300 rounded px-3 py-2">
+                    <option value="non payé" {{ $order->payment_status == 'non payé' ? 'selected' : '' }}>Non payé</option>
+                    <option value="payé" {{ $order->payment_status == 'payé' ? 'selected' : '' }}>Payé</option>
+                </select>
+            </div>
             <div class="flex justify-between items-center mt-6">
                 <a href="{{ route('orders.show', $order) }}" class="text-gray-500 hover:underline">Retour</a>
                 <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded font-semibold hover:bg-green-700 transition">Enregistrer</button>
