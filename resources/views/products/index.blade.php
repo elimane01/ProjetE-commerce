@@ -33,13 +33,17 @@
         @forelse($products as $product)
             <div class="col">
                 <div class="card h-100 shadow-sm">
-                    @if($product->image)
-                        <img src="{{ Str::startsWith($product->image, 'http') ? $product->image : asset('storage/'.$product->image) }}" alt="{{ $product->name }}" class="card-img-top" style="height:200px;object-fit:cover;">
-                    @else
-                        <img src="https://via.placeholder.com/400x250?text=Image+Produit" class="card-img-top" alt="Image par défaut">
-                    @endif
+                    <a href="{{ route('products.show', $product->id) }}">
+                        @if($product->image)
+                            <img src="{{ Str::startsWith($product->image, 'http') ? $product->image : asset('storage/'.$product->image) }}" alt="{{ $product->name }}" class="card-img-top" style="height:200px;object-fit:cover;">
+                        @else
+                            <img src="https://via.placeholder.com/400x250?text=Image+Produit" class="card-img-top" alt="Image par défaut">
+                        @endif
+                    </a>
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ $product->name }}</h5>
+                        <h5 class="card-title">
+                            <a href="{{ route('products.show', $product->id) }}" class="text-decoration-none text-dark">{{ $product->name }}</a>
+                        </h5>
                         <p class="card-text small text-muted mb-1">Catégorie : {{ $product->category->name ?? 'Aucune' }}</p>
                         <p class="card-text">{{ Str::limit($product->description, 80) }}</p>
                         <div class="mt-auto">

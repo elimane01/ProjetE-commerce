@@ -29,6 +29,11 @@
                     <a class="nav-link" href="{{ route('login') }}">Se connecter</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('cart.index') }}">
+                        <i class="fas fa-shopping-basket me-1"></i>Voir mon panier
+                    </a>
+                </li>
+                <li class="nav-item">
                     <form method="POST" action="{{ route('logout') }}" class="d-inline">
                         @csrf
                         <button type="submit" class="btn btn-link nav-link" style="display:inline;cursor:pointer;">Se déconnecter</button>
@@ -38,6 +43,11 @@
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#">
                         <i class="fas fa-user me-1"></i>{{ Auth::user()->first_name }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('orders.index') }}">
+                        <i class="fas fa-list me-1"></i>Mes commandes
                     </a>
                 </li>
                 @endauth
@@ -62,4 +72,4 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html> 
+</html>
